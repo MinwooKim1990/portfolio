@@ -194,10 +194,12 @@ def main():
     while should_iterate and iteration_count < max_iterations:
         iteration_count += 1
         print(f"\n--- Iteration {iteration_count} ---\n")
+        print("="*10)
 
         # Process the user input through the embedding model
         embedding_output = embedding_model.converse(user_input)
-        print("Embedding Output:\n", embedding_output)
+        print("\nEmbedding Output:\n", embedding_output)
+        print("="*10)
 
         # Extract individual tasks for each agent
         task1_input, task2_input, task3_input, task4_input = embedding_model.extract_tasks(embedding_output)
@@ -205,20 +207,23 @@ def main():
         # Execute Agent 1's task (Foundation)
         agent1_output = agent1.execute_task(task1_input)
         context.update_state('agent1_output', agent1_output)
-        print(f"Agent1 Thinking...{task1_input}")
+        print(f"\nAgent1 Thinking...{task1_input}")
+        print("="*10)
         time.sleep(0.5)
 
         # Execute Agent 2's task (Examples/Applications)
         agent2_output = agent2.execute_task(task2_input, previous_outputs=agent1_output)
         context.update_state('agent2_output', agent2_output)
-        print(f"Agent2 Thinking...{task2_input}")
+        print(f"\nAgent2 Thinking...{task2_input}")
+        print("="*10)
         time.sleep(0.5)
 
         # Execute Agent 3's task (Analysis)
         combined_previous_output = "Agent1 Output:\n" + agent1_output + "\nAgent2 Output:\n" + agent2_output
         agent3_output = agent3.execute_task(task3_input, previous_outputs=combined_previous_output)
         context.update_state('agent3_output', agent3_output)
-        print(f"Agent3 Thinking...{task3_input}")
+        print(f"\nAgent3 Thinking...{task3_input}")
+        print("="*10)
         time.sleep(0.5)
 
         # Execute Agent 4's task (External Information)
@@ -229,7 +234,8 @@ def main():
         )
         agent4_output = agent4.execute_task(task4_input, previous_outputs=combined_previous_output)
         context.update_state('agent4_output', agent4_output)
-        print(f"Agent4 Thinking...{task4_input}")
+        print(f"\nAgent4 Thinking...{task4_input}")
+        print("="*10)
         time.sleep(0.5)
 
         # Combine all outputs for final validation
@@ -246,6 +252,7 @@ def main():
         # Display the final results
         print("\nFinal Output from Agent 5:")
         print(final_output)
+        print("="*10)
         print(f"\nAgent 5 suggests next action: {next_action}")
 
         # Handle iteration based on validation results
